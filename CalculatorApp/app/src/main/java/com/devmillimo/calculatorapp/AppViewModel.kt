@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.update
 
 class AppViewModel: ViewModel() {
 
-    private  val _firstnumber: MutableStateFlow<Double> = MutableStateFlow(0.0)
+    private  val _firstnumber: MutableStateFlow<Double?> = MutableStateFlow(null)
     val firstNumber = _firstnumber.asStateFlow()
 
-    private  val _secondNumber: MutableStateFlow<Double> = MutableStateFlow(0.0)
+    private  val _secondNumber: MutableStateFlow<Double?> = MutableStateFlow(null)
     val secondNumber = _secondNumber.asStateFlow()
 
     private val _action:MutableStateFlow<String> = MutableStateFlow("")
@@ -27,21 +27,27 @@ class AppViewModel: ViewModel() {
         _action.update { action }
     }
 
+    fun resetAll(){
+        _action.update { "" }
+        _firstnumber.update { null }
+        _secondNumber.update { null }
+    }
+
     fun getResult(): Double{
         return  when(_action.value){
             "-" ->{
-                _firstnumber.value - secondNumber.value
+                _firstnumber.value!! - secondNumber.value!!
             }
             "+" ->{
-                _firstnumber.value + secondNumber.value
+                _firstnumber.value!! + secondNumber.value!!
             }
             "÷" ->{
-                _firstnumber.value / secondNumber.value
+                _firstnumber.value!! / secondNumber.value!!
             }
             "x" ->{
-                _firstnumber.value * secondNumber.value
+                _firstnumber.value!! * secondNumber.value!!
             }
-            else{
+            else->{
                 0.0
             }
         }

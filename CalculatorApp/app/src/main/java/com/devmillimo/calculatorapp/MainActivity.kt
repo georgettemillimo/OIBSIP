@@ -79,46 +79,69 @@ class MainActivity : ComponentActivity() {
                     }
 
                     //BOX TO DESIGN THE BUTTONS OF THE CALULATOR==============================================================
-                    val input = remember {
-                        mutableStateOf<Double?>(null)
+
+
+                    val (input, setInput) = remember {
+                        mutableStateOf<String?>(null)
                     }
+
+
                    Box(modifier = Modifier
                        .fillMaxSize(),
                        contentAlignment = Alignment.BottomCenter
                    ){
 
-                       LazyVerticalGrid(
-                           modifier = Modifier
-                               .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                               .background(MaterialTheme.colors.primary)
-                               .padding(8.dp),
-                           columns = GridCells.Fixed(4),
-                           verticalArrangement = Arrangement.spacedBy(16.dp),
-                           horizontalArrangement = Arrangement.spacedBy(16.dp),
-                           contentPadding = PaddingValues(16.dp)
+                    Column() {
+                        Text(modifier = Modifier.padding(12.dp), text = "Result will be shown here", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                        Spacer(modifier = Modifier.height(32.dp))
+                        LazyVerticalGrid(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                                .background(MaterialTheme.colors.primary)
+                                .padding(8.dp),
+                            columns = GridCells.Fixed(4),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            contentPadding = PaddingValues(16.dp)
 
-                       ){
+                        ){
 
-                           items(calculatorButtons){
-                             CalcButton(
-                                 button = it,
-                                 onClick = {
-                                     when(it.type){
-                                         CalculatorButtonType.Normal->{
+                            items(calculatorButtons){
+                                CalcButton(
+                                    button = it,
+                                    onClick = {
+                                        when(it.type){
+                                            CalculatorButtonType.Normal->{
+                                                setInput((input ?: "") + it.text)
+                                            }
+                                            CalculatorButtonType.Action->{
+                                                if (it.text == "="){
+                                                    val result = viewModel.getResult()
+                                                    viewModel.resetAll()
+                                                } else{
+                                                    if (input != null){
+                                                        if (viewModel.firstNumber.value == null){
+                                                            viewModel.setFirstNumber(input.toDouble())
+                                                        }
+                                                        else{
+                                                            viewModel.setsecondNumber(input.toDouble())
+                                                        }
+                                                        viewModel.setAction(it.text!!)
+                                                        setInput(null)
+                                                    }
+                                                }
 
-                                         }
-                                         CalculatorButtonType.Action->{
-                                                viewModel.setAction(it.text!!)
-                                         }
-                                         CalculatorButtonType.Reset->{
+                                            }
+                                            CalculatorButtonType.Reset->{
+                                                viewModel.resetAll()
+                                            }
+                                        }
+                                    }
+                                )
+                            }
 
-                                         }
-                                     }
-                                 }
-                                 )
-                           }
-
-                       }
+                        }
+                    }
 
                    }
 
