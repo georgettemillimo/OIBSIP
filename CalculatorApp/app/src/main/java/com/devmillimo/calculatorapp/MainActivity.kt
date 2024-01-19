@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.foundation.layout.*
@@ -16,14 +17,20 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Refresh
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.devmillimo.calculatorapp.ui.theme.CalculatorAppTheme
+import com.devmillimo.calculatorapp.ui.theme.Cyan
+import com.devmillimo.calculatorapp.ui.theme.Red
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,25 +75,29 @@ class MainActivity : ComponentActivity() {
 
                     //BOX TO DESIGN THE BUTTONS OF THE CALULATOR==============================================================
                    Box(modifier = Modifier
-                       .fillMaxSize()
-                       .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
-                       .background(MaterialTheme.colors.secondary),
-                       contentAlignment = Alignment.BottomCenter ){
+                       .fillMaxSize(),
+                       contentAlignment = Alignment.BottomCenter
+                   ){
 
-                       LazyVerticalGrid(columns = GridCells.Fixed(4)){
+                       LazyVerticalGrid(
+                           modifier = Modifier
+                               .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                               .background(MaterialTheme.colors.primary)
+                               .padding(8.dp),
+                           columns = GridCells.Fixed(4),
+                           verticalArrangement = Arrangement.spacedBy(16.dp),
+                           horizontalArrangement = Arrangement.spacedBy(16.dp),
+                           contentPadding = PaddingValues(16.dp)
+
+                       ){
 
                            items(calculatorButtons){
-                               Box(modifier = Modifier
-                                   .clip(RoundedCornerShape(4.dp))
-                                   .background(MaterialTheme.colors.primary),
-                                   contentAlignment = Alignment.Center
-                               ){
-                                    if (it.text != null){
-                                        Text(it.text)
-                                    }else{
-                                        Icon(imageVector = it.icon!!, contentDescription = null)
-                                    }
-                               }
+                             CalcButton(
+                                 button = it,
+                                 onClick = {
+
+                                 }
+                                 )
                            }
 
                        }
@@ -95,6 +106,43 @@ class MainActivity : ComponentActivity() {
 
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun CalcButton( button: CalculatorButton, onClick:() -> Unit){
+    Box(modifier = Modifier
+        .clip(RoundedCornerShape(16.dp))
+        .background(MaterialTheme.colors.secondary)
+        .fillMaxWidth()
+        .aspectRatio(1f)
+        .clickable {
+            onClick()
+        },
+        contentAlignment = Alignment.Center
+    ){
+        val contentColor =
+            if (button.type == CalculatorButtonType.Normal)
+                Color.White
+            else if (button.type == CalculatorButtonType.Action)
+                Red
+            else
+                Cyan
+
+        if (button.text != null){
+            Text(
+                button.text,
+                color = contentColor,
+                fontWeight = FontWeight.Bold,
+                fontSize = if (button.type == CalculatorButtonType.Action)25.sp else 20.sp
+            )
+        }else{
+            Icon(
+                modifier = Modifier.size(32.dp),
+                imageVector = button.icon!!,
+                contentDescription = null,
+                tint = contentColor)
         }
     }
 }
