@@ -3,6 +3,7 @@ package com.devmillimo.calculatorapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +35,9 @@ import com.devmillimo.calculatorapp.ui.theme.Cyan
 import com.devmillimo.calculatorapp.ui.theme.Red
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: AppViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -46,9 +51,9 @@ class MainActivity : ComponentActivity() {
                     val calculatorButtons = remember {
                         mutableStateListOf(
                             CalculatorButton( "AC", CalculatorButtonType.Reset),
-                            CalculatorButton("÷", CalculatorButtonType.Action),
                             CalculatorButton( "AC", CalculatorButtonType.Reset),
-                            CalculatorButton("+", CalculatorButtonType.Action),
+                            CalculatorButton( "AC", CalculatorButtonType.Reset),
+                            CalculatorButton("÷", CalculatorButtonType.Action),
 
                             CalculatorButton( "7", CalculatorButtonType.Normal),
                             CalculatorButton("8", CalculatorButtonType.Normal),
@@ -74,6 +79,9 @@ class MainActivity : ComponentActivity() {
                     }
 
                     //BOX TO DESIGN THE BUTTONS OF THE CALULATOR==============================================================
+                    val input = remember {
+                        mutableStateOf<Double?>(null)
+                    }
                    Box(modifier = Modifier
                        .fillMaxSize(),
                        contentAlignment = Alignment.BottomCenter
@@ -95,7 +103,17 @@ class MainActivity : ComponentActivity() {
                              CalcButton(
                                  button = it,
                                  onClick = {
+                                     when(it.type){
+                                         CalculatorButtonType.Normal->{
 
+                                         }
+                                         CalculatorButtonType.Action->{
+                                                viewModel.setAction(it.text!!)
+                                         }
+                                         CalculatorButtonType.Reset->{
+
+                                         }
+                                     }
                                  }
                                  )
                            }
@@ -124,7 +142,7 @@ fun CalcButton( button: CalculatorButton, onClick:() -> Unit){
     ){
         val contentColor =
             if (button.type == CalculatorButtonType.Normal)
-                Color.White
+                Color.Black
             else if (button.type == CalculatorButtonType.Action)
                 Red
             else
@@ -145,6 +163,32 @@ fun CalcButton( button: CalculatorButton, onClick:() -> Unit){
                 tint = contentColor)
         }
     }
+
+    //==============================Working Area========================
+    Box(modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
+        ){
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .clip(
+                    RoundedCornerShape(8.dp)
+                )
+        ) {
+            Icon(modifier = Modifier.size(20.dp),
+                painter = painterResource(id = R.drawable.icon_nightmode), contentDescription = null,
+                tint = Color.White
+            )
+
+            Icon(modifier = Modifier.size(20.dp),
+                painter = painterResource(id = R.drawable.icon_darkmode), contentDescription = null,
+                tint = Color.White
+            )
+        }
+    }
+    //==============================Working Area========================
+
 }
 
 
