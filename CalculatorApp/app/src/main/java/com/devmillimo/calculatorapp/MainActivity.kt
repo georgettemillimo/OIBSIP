@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.primary
+                    color = MaterialTheme.colors.secondary
                 ) {
 
                     val calculatorButtons = remember {
@@ -89,7 +89,30 @@ class MainActivity : ComponentActivity() {
                     val (input, setInput) = remember {
                         mutableStateOf<String?>(null)
                     }
+                    //==============================Working Area========================
+                    Box(modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.TopCenter
+                    ){
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                                .clip(
+                                    RoundedCornerShape(8.dp)
+                                )
+                        ) {
+                            Icon(modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = R.drawable.icon_nightmode), contentDescription = null,
+                                tint = Color.Black
+                            )
 
+                            Icon(modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = R.drawable.icon_darkmode), contentDescription = null,
+                                tint = Color.Black
+                            )
+                        }
+                    }
+                    //==============================Working Area========================
 
                    Box(modifier = Modifier
                        .fillMaxSize(),
@@ -99,11 +122,13 @@ class MainActivity : ComponentActivity() {
                     Column() {
                         Text(modifier = Modifier.padding(12.dp), text = uiText, fontSize = 48.sp, fontWeight = FontWeight.Bold, color = Color.Black)
                         Spacer(modifier = Modifier.height(16.dp))
+
+  //========================================LAZY VERTICAL GRID FOR BUTTONS======================================================
+
                         LazyVerticalGrid(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                                .background(MaterialTheme.colors.primary)
-                                .padding(8.dp),
+                            modifier = Modifier.padding(8.dp)
+                                .clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
+                                .background(MaterialTheme.colors.primary),
                             columns = GridCells.Fixed(4),
                             verticalArrangement = Arrangement.spacedBy(16.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -227,31 +252,6 @@ fun CalcButton( button: CalculatorButton, onClick:() -> Unit){
                 tint = contentColor)
         }
     }
-
-    //==============================Working Area========================
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
-        ){
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-                .clip(
-                    RoundedCornerShape(8.dp)
-                )
-        ) {
-            Icon(modifier = Modifier.size(20.dp),
-                painter = painterResource(id = R.drawable.icon_nightmode), contentDescription = null,
-                tint = Color.White
-            )
-
-            Icon(modifier = Modifier.size(20.dp),
-                painter = painterResource(id = R.drawable.icon_darkmode), contentDescription = null,
-                tint = Color.White
-            )
-        }
-    }
-    //==============================Working Area========================
 
 }
 
