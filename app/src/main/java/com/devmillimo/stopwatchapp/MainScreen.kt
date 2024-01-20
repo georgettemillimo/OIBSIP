@@ -1,11 +1,8 @@
 package com.devmillimo.stopwatchapp
 
 import android.hardware.lights.Light
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ContentTransform
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.*
@@ -15,11 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.devmillimo.stopwatchapp.service.ServiceHelper
+import com.devmillimo.stopwatchapp.service.StopwatchService
+import com.devmillimo.stopwatchapp.service.StopwatchState
+import com.devmillimo.stopwatchapp.util.Constants.ACTION_SERVICE_CANCEL
+import com.devmillimo.stopwatchapp.util.Constants.ACTION_SERVICE_START
+import com.devmillimo.stopwatchapp.util.Constants.ACTION_SERVICE_STOP
 
 
 @ExperimentalAnimationApi
@@ -110,7 +113,7 @@ fun Mainscreen(stopwatchService: StopwatchService) {
                     .fillMaxHeight(0.8f),
                 onClick = {
                     ServiceHelper.triggerForegroundService(
-                        conetext = context, action = ACTION_SERVICE_RESET
+                        context = context, action = ACTION_SERVICE_CANCEL
                     )
                 },
 
@@ -125,9 +128,11 @@ fun Mainscreen(stopwatchService: StopwatchService) {
 }
 
 @ExperimentalAnimationApi
-fun addAnimation(duration: Int = 600): ContentTransform{
-    return slideInVertically (animationSpec = tween(durationMillis = duration)){
-        height -> height } animationSpec  = tween(durationMillis = duration)
+fun addAnimation(duration: Int = 600): ContentTransform {
+    return slideInVertically(animationSpec = tween(durationMillis = duration)) { height -> height } + fadeIn(
+        animationSpec = tween(durationMillis = duration)
+    ) with slideOutVertically(animationSpec = tween(durationMillis = duration)) { height -> height } + fadeOut(
+        animationSpec = tween(durationMillis = duration)
+    )
 }
-
 

@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.devmillimo.stopwatchapp.service.StopwatchService
 import com.devmillimo.stopwatchapp.ui.theme.StopwatchAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
         setContent{
             StopwatchAppTheme{
                 if (isBound){
-                    MainScreen(stopwatchService = stopwatchService)
+                   Mainscreen(stopwatchService = stopwatchService)
                 }
             }
         }
@@ -69,6 +70,3 @@ class MainActivity : ComponentActivity() {
 
 }
 
-class StopwatchService {
-
-}
