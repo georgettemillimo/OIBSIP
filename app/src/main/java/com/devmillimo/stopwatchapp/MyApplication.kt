@@ -1,4 +1,4 @@
-package com.devmillimo.stopwatchapp.util
+package com.devmillimo.stopwatchapp
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
