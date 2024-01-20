@@ -1,6 +1,7 @@
 package com.devmillimo.calculatorapp
 
 import android.os.Bundle
+import android.text.TextUtils.split
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -18,10 +19,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Refresh
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -70,17 +68,24 @@ class MainActivity : ComponentActivity() {
                             CalculatorButton( "3", CalculatorButtonType.Normal),
                             CalculatorButton("+", CalculatorButtonType.Action),
 
-                            CalculatorButton(icon = Icons.Outlined.Refresh, type = CalculatorButtonType.Normal),
+                            CalculatorButton(
+                                icon = Icons.Outlined.Refresh,
+                                type = CalculatorButtonType.Reset),
                             CalculatorButton("0", CalculatorButtonType.Normal),
                             CalculatorButton(".", CalculatorButtonType.Normal),
                             CalculatorButton("=", CalculatorButtonType.Action),
 
                         )
                     }
+                    val (uiText, setuiText) = remember {
+                        mutableStateOf("0")
+                    }
 
-                    //BOX TO DESIGN THE BUTTONS OF THE CALULATOR==============================================================
-
-
+                    LaunchedEffect(uiText){
+                        if (uiText.startsWith("0") && uiText != "0"){
+                            setuiText(uiText.substring(1))
+                        }
+                    }
                     val (input, setInput) = remember {
                         mutableStateOf<String?>(null)
                     }
@@ -92,8 +97,8 @@ class MainActivity : ComponentActivity() {
                    ){
 
                     Column() {
-                        Text(modifier = Modifier.padding(12.dp), text = "Result will be shown here", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-                        Spacer(modifier = Modifier.height(32.dp))
+                        Text(modifier = Modifier.padding(12.dp), text = uiText, fontSize = 48.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                        Spacer(modifier = Modifier.height(16.dp))
                         LazyVerticalGrid(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
@@ -111,14 +116,47 @@ class MainActivity : ComponentActivity() {
                                     button = it,
                                     onClick = {
                                         when(it.type){
+
+         // =======================================Normal Button============================================================================
                                             CalculatorButtonType.Normal->{
+                                                runCatching {
+                                                    setuiText(uiText.toInt().toString()+it.text)
+                                                }.onFailure {exception: Throwable ->
+                                                    setuiText(uiText+it.text)
+                                                }
                                                 setInput((input ?: "") + it.text)
+                                                if (viewModel.action.value.isNotEmpty()){
+                                                    if (viewModel.secondNumber.value == null){
+                                                        viewModel.setsecondNumber(it.text!!.toDouble())
+                                                    }else{
+                                                        if (viewModel.secondNumber.value.toString().split(".")[1]=="0"){
+                                                            viewModel.setsecondNumber((viewModel.secondNumber.value.toString()
+                                                                .split(".").first() + it.text!!).toDouble())
+                                                        }else{
+                                                            viewModel.setsecondNumber((viewModel.secondNumber.value.toString() + it.text!!).toDouble())
+                                                        }
+
+                                                    }
+                                                }
                                             }
+
+          // =======================================Action Button============================================================================
                                             CalculatorButtonType.Action->{
+
                                                 if (it.text == "="){
                                                     val result = viewModel.getResult()
+                                                    setuiText(result.toString())
+                                                    setInput(null)
                                                     viewModel.resetAll()
+
                                                 } else{
+                                                    runCatching {
+                                                        setuiText(uiText.toInt().toString()+it.text)
+                                                    }.onFailure {exception: Throwable ->
+                                                        setuiText(uiText+it.text)
+                                                    }
+
+
                                                     if (input != null){
                                                         if (viewModel.firstNumber.value == null){
                                                             viewModel.setFirstNumber(input.toDouble())
@@ -132,7 +170,10 @@ class MainActivity : ComponentActivity() {
                                                 }
 
                                             }
+            // =======================================rest Button============================================================================
                                             CalculatorButtonType.Reset->{
+                                                setuiText("0")
+                                                setInput(null)
                                                 viewModel.resetAll()
                                             }
                                         }
