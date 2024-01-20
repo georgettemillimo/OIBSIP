@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.devmillimo.calculatorapp.ViewModels.AppViewModel
 import com.devmillimo.calculatorapp.ui.theme.CalculatorAppTheme
 import com.devmillimo.calculatorapp.ui.theme.Cyan
 import com.devmillimo.calculatorapp.ui.theme.Red
@@ -89,17 +90,18 @@ class MainActivity : ComponentActivity() {
                     val (input, setInput) = remember {
                         mutableStateOf<String?>(null)
                     }
-                    //==============================Working Area========================
-                    Box(modifier = Modifier.fillMaxSize(),
+                    //==============================MODE ICONS ON TOP CENTER========================
+                    Box(modifier = Modifier.fillMaxSize().padding(top = 8.dp),
                         contentAlignment = Alignment.TopCenter
                     ){
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
                                 .clip(
                                     RoundedCornerShape(8.dp)
                                 )
+                                .background(MaterialTheme.colors.primary)
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
                         ) {
                             Icon(modifier = Modifier.size(20.dp),
                                 painter = painterResource(id = R.drawable.icon_nightmode), contentDescription = null,
@@ -112,7 +114,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                    //==============================Working Area========================
+                    //==============================MODE ICONS ON TOP CENTER========================
 
                    Box(modifier = Modifier
                        .fillMaxSize(),

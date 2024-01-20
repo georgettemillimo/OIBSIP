@@ -1,4 +1,4 @@
-package com.devmillimo.calculatorapp
+package com.devmillimo.calculatorapp.ViewModels
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
