@@ -18,7 +18,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             UnitConverterTheme {
-                MainScreen()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ){
+                    MainScreen()
+                }
+
             }
         }
     }
