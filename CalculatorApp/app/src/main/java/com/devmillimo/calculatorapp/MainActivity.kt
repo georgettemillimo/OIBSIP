@@ -1,7 +1,10 @@
 package com.devmillimo.calculatorapp
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.text.TextUtils.split
+import android.view.View
+import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -28,7 +31,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.devmillimo.calculatorapp.ViewModels.AppViewModel
+import com.devmillimo.calculatorapp.ViewModels.SplashViewModel
 import com.devmillimo.calculatorapp.ui.theme.CalculatorAppTheme
 import com.devmillimo.calculatorapp.ui.theme.Cyan
 import com.devmillimo.calculatorapp.ui.theme.Red
@@ -36,9 +42,41 @@ import com.devmillimo.calculatorapp.ui.theme.Red
 class MainActivity : ComponentActivity() {
 
     private val viewModel: AppViewModel by viewModels()
+    private val viewModels by viewModels<SplashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setKeepOnScreenCondition(){
+                !viewModels.isReady.value
+            }
+
+            // When the screen starts to exit
+            setOnExitAnimationListener{ screen ->
+                val zoomX = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_X,
+                    0.4f,
+                    0.0f
+                )
+                zoomX.interpolator = OvershootInterpolator()
+                zoomX.duration = 500L
+                zoomX.doOnEnd { screen.remove() }
+
+                val zoomY = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_Y,
+                    0.4f,
+                    0.0f
+                )
+                zoomY.interpolator = OvershootInterpolator()
+                zoomY.duration = 500L
+                zoomY.doOnEnd { screen.remove() }
+
+                zoomX.start()
+                zoomY.start()
+            }
+        }
         setContent {
             CalculatorAppTheme {
                 // A surface container using the 'background' color from the theme
