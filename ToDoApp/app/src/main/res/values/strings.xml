@@ -2,4 +2,16 @@
     <string name="app_name">ToDoApp</string>
     <string name="hello">Hello there,</string>
     <string name="register">Register To Continue</string>
+    <string name="first_name">First Name</string>
+    <string name="second_name">Second Name</string>
+    <string name="email">Email</string>
+    <string name="password">*******</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
+    <string name="terms_condition_header">Terms and Conditions of Use</string>
+    <string name="terms_condition">
+        Welcome to [Your App Name], a to-do app designed to help you organize your tasks and increase productivity.
+        By accessing and using this application, you agree to comply with and be bound by
+        the following terms and conditions of use. If you do not agree to these terms, please do not use the app.</string>
+
 </resources>
