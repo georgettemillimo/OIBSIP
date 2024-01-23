@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ToDoApp</string>
+    <string name="hello">Hello there,</string>
+    <string name="register">Register To Continue</string>
 </resources>
