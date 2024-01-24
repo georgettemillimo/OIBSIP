@@ -8,6 +8,12 @@
     <string name="password">*******</string>
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
+    <string name="sign_up">Register</string>
+    <string name="login">Login</string>
+    <string name="or">Or</string>
+    <string name="go_to_login">Already have an account? Login</string>
+    <string name="go_to_register">Don\'t have an account ? Register</string>
+
     <string name="terms_condition_header">Terms and Conditions of Use</string>
     <string name="terms_condition">
         Welcome to [Your App Name], a to-do app designed to help you organize your tasks and increase productivity.

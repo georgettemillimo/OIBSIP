@@ -49,8 +49,18 @@ fun RegisterDisplay(){
             CheckboxComponent(value = stringResource(id = R.string.terms_condition),
 
                 onTextSelected = {
-                    ToDoAppRouter.navigateTo(Display.TermsAndConditionDisplay)
+                    //ToDoAppRouter.navigateTo(Display.TermsAndConditionDisplay)
                 })
+            
+            Spacer(modifier = Modifier.height(30.dp))
+            
+            ButtonComponent(value = stringResource(id = R.string.sign_up))
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            DividerTextComponent()
+
+            ClickableLoginTextComponent(onTextSelected ={} )
 
         }
 

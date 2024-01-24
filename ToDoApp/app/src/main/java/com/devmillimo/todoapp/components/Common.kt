@@ -1,10 +1,9 @@
 package com.devmillimo.todoapp.components
 
 import android.util.Log
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -15,7 +14,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -31,9 +32,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devmillimo.todoapp.R
-import com.devmillimo.todoapp.ui.theme.BgColor
-import com.devmillimo.todoapp.ui.theme.Primary
-import com.devmillimo.todoapp.ui.theme.Shapes
+import com.devmillimo.todoapp.ui.theme.*
 
 @Composable
 fun CommonText(value: String){
@@ -43,7 +42,7 @@ fun CommonText(value: String){
             .fillMaxWidth()
             .heightIn(min = 40.dp),
         style = TextStyle(
-            fontSize = 24.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
         ),
@@ -210,6 +209,95 @@ fun ClickableTextComponent(value: String, onTextSelected: (String)-> Unit){
                 Log.d("ClickableTextComponent","{$span}")
 
                 if (span.item == termsConditions){
+                    onTextSelected(span.item)
+                }
+            }
+    })
+}
+
+@Composable
+fun ButtonComponent(value: String){
+    Button(onClick = { /*TODO*/ },
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(48.dp),
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(Color.Transparent)
+
+    ) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(48.dp)
+            .background(
+                brush = Brush.horizontalGradient(listOf(Secondary, Primary)),
+                shape = RoundedCornerShape(50.dp)
+            ),
+
+            contentAlignment = Alignment.Center
+            ){
+            Text(text = value,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+                )
+        }
+    }
+}
+
+@Composable
+fun DividerTextComponent(){
+    Row(modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+        ) {
+        Divider(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f),
+        color = GrayColor,
+        thickness = 1.dp,)
+
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = stringResource(id = R.string.or), fontSize = 16.sp, color = TextColor)
+        Divider(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f),
+            color = GrayColor,
+            thickness = 1.dp)
+    }
+}
+
+
+@Composable
+fun ClickableLoginTextComponent(onTextSelected: (String)-> Unit){
+    val initialText = "Already have an account? "
+    val loginText = "Login "
+
+
+    val annotatedString = buildAnnotatedString {
+        append(initialText)
+        withStyle(style = SpanStyle(color = Primary)){
+            pushStringAnnotation(tag = loginText, annotation = loginText)
+            append(loginText)
+        }
+    }
+    ClickableText(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 40.dp),
+        style = TextStyle(
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
+            fontStyle = FontStyle.Normal,
+            textAlign = TextAlign.Center
+
+        ),
+
+        text = annotatedString, onClick = {offset ->
+        annotatedString.getStringAnnotations(offset, offset)
+            .firstOrNull()?.also {span->
+                Log.d("ClickableTextComponent","{$span}")
+
+                if (span.item == loginText){
                     onTextSelected(span.item)
                 }
             }
