@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 sealed class Display {
     object RegisterDisplay : Display()
     object TermsAndConditionDisplay : Display()
+
+    object LoginDisplay: Display()
 }
 object ToDoAppRouter{
     var currentDisplay: MutableState<Display> = mutableStateOf(Display.RegisterDisplay)

@@ -60,7 +60,9 @@ fun RegisterDisplay(){
 
             DividerTextComponent()
 
-            ClickableLoginTextComponent(onTextSelected ={} )
+            ClickableLoginTextComponent(tryingToLogin = true, onTextSelected = {
+                ToDoAppRouter.navigateTo(Display.LoginDisplay)
+            })
 
         }
 
