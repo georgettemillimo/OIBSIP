@@ -17,7 +17,14 @@ class UserViewModel(private val  dao: UserDao): ViewModel() {
                 ) }
             }
             UserEvent.SaveUser -> {
+                val firstname = _state.value.firstName
+                val secondName = _state.value.secondName
+                val email = _state.value.email
+                val password = _state.value.password
 
+                if (firstname.isBlank() || secondName.isBlank() || email.isBlank() || password.isBlank()){
+                    return
+                }
             }
             is UserEvent.SetEmail -> {
 
