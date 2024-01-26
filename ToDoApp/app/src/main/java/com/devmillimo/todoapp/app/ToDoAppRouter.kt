@@ -7,7 +7,10 @@ sealed class Display {
     object RegisterDisplay : Display()
     object TermsAndConditionDisplay : Display()
 
+    object HomeDisplay : Display()
+
     object LoginDisplay: Display()
+
 }
 object ToDoAppRouter{
     var currentDisplay: MutableState<Display> = mutableStateOf(Display.RegisterDisplay)

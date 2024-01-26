@@ -7,9 +7,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.devmillimo.todoapp.displays.LoginDisplay
-import com.devmillimo.todoapp.displays.RegisterDisplay
-import com.devmillimo.todoapp.displays.TernmsAndConditionDisplay
+import com.devmillimo.todoapp.displays.*
 import com.devmillimo.todoapp.ui.theme.ToDoAppTheme
 
 
@@ -34,6 +32,9 @@ fun ToDoApp (){
                     }
                     is Display.LoginDisplay->{
                         LoginDisplay()
+                    }
+                    is Display.HomeDisplay->{
+                        HomeDisplay()
                     }
                 }
 
