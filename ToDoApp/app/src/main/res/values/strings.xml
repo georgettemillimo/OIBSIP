@@ -21,6 +21,7 @@
     <string name="go_to_login">Already have an account? Login</string>
     <string name="go_to_register">Don\'t have an account ? Register</string>
     <string name="forgot_password">Forgot your Password?</string>
+    <string name="submit">Submit</string>
 
 
 </resources>

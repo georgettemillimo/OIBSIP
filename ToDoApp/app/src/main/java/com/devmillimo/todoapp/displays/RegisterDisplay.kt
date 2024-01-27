@@ -1,8 +1,9 @@
 package com.devmillimo.todoapp.displays
 
+import android.view.Surface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,13 +18,12 @@ import com.devmillimo.todoapp.components.*
 
 @Composable
 fun RegisterDisplay(){
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(28.dp),
-    ) {
-        
+
+    Surface(       modifier = Modifier
+        .fillMaxSize()
+        .background(Color.White)
+        .padding(28.dp),) {
+
         Column(modifier = Modifier.fillMaxSize()) {
             CommonText(value = stringResource(R.string.hello))
             HeadingText(value = stringResource(id = R.string.register))
@@ -51,9 +51,9 @@ fun RegisterDisplay(){
                 onTextSelected = {
                     //ToDoAppRouter.navigateTo(Display.TermsAndConditionDisplay)
                 })
-            
+
             Spacer(modifier = Modifier.height(30.dp))
-            
+
             ButtonComponent(value = stringResource(id = R.string.sign_up))
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -67,6 +67,10 @@ fun RegisterDisplay(){
         }
 
     }
+
+
+
+
 }
 
 @Preview

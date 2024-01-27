@@ -10,7 +10,7 @@ interface TodoDao {
     @Insert
     fun addTodo(todo: TodoEntities)
 
-    @Query("SELECT * FROM 'todos'")
+    @Query("SELECT * FROM `todos`")
     fun getTodos():Flow<List<TodoEntities>>
 
     @Update

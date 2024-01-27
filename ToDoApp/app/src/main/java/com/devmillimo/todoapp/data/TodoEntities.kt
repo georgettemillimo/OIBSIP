@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Entity
+@Entity(tableName = "todos")
 data class TodoEntities(
 
     @PrimaryKey(autoGenerate = true)

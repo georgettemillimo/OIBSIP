@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.devmillimo.todoapp.components
 
 import android.util.Log
@@ -9,15 +11,13 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.transition.Visibility
 import com.devmillimo.todoapp.R
 import com.devmillimo.todoapp.ui.theme.*
 
@@ -76,6 +77,7 @@ fun HeadingText(value: String){
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldComponents(labelvalue: String, painterResource: Painter) {
     var textValue by remember {
@@ -92,7 +94,6 @@ fun TextFieldComponents(labelvalue: String, painterResource: Painter) {
             focusedBorderColor = Primary,
             focusedLabelColor = Primary,
             cursorColor = Primary,
-            backgroundColor = BgColor
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         singleLine = true,
@@ -130,7 +131,6 @@ fun PasswordFieldComponent(labelvalue: String, painterResource: Painter) {
             focusedBorderColor = Primary,
             focusedLabelColor = Primary,
             cursorColor = Primary,
-            backgroundColor = BgColor
         ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
         singleLine = true,
@@ -147,11 +147,11 @@ fun PasswordFieldComponent(labelvalue: String, painterResource: Painter) {
         },
         trailingIcon = {
             val iconImage = if (passwordVisible.value){
-                Icons.Filled.Visibility
+                //Icons.Default.Visibility
             }
             else
             {
-                Icons.Filled.VisibilityOff
+                //Icons.Filled.VisibilityOff
             }
             var description = if(passwordVisible.value){
                 stringResource(id = R.string.hide_password)
@@ -162,7 +162,7 @@ fun PasswordFieldComponent(labelvalue: String, painterResource: Painter) {
 
             IconButton(onClick = {passwordVisible.value = !passwordVisible.value}) {
 
-                Icon(imageVector = iconImage, contentDescription = description)
+                //Icon(imageVector = iconImage, contentDescription = description)
                 
             }
 
