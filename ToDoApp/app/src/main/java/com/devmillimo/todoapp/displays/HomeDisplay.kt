@@ -4,11 +4,15 @@ package com.devmillimo.todoapp.displays
 
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,12 +20,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.material3.DividerDefaults.color
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +38,7 @@ import com.devmillimo.todoapp.HomeViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.devmillimo.todoapp.R
 import com.devmillimo.todoapp.data.TodoEntities
+import com.devmillimo.todoapp.data.addDate
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,7 +64,7 @@ fun HomeDisplay(
             Column(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background(Color.LightGray)
                     .padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -108,8 +115,19 @@ fun HomeDisplay(
                             setDialogOpen(false)
                         }
                     },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                listOf(
+                                    Color.LightGray,
+                                   Color.Magenta,
+
+                                )
+                            ),
+                            shape = RoundedCornerShape(50.dp)
+                        ),
+                    colors = ButtonDefaults.buttonColors(Color.Transparent)
                 ) {
                     Text(text = stringResource(id = R.string.submit), color = Color.White)
                 }
@@ -118,13 +136,13 @@ fun HomeDisplay(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.secondary, floatingActionButton = {
+        containerColor = Color.LightGray, floatingActionButton = {
             FloatingActionButton(
                 onClick = {
                     setDialogOpen(true)
                 },
-                containerColor = Color.White,
-                contentColor = MaterialTheme.colorScheme.primary
+                containerColor = Color.Magenta,
+                contentColor = Color.White
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
             }
@@ -164,7 +182,13 @@ fun HomeDisplay(
                 ) {
                     items(todos.sortedBy { it.done }, key = { it.id })
                     { todo ->
-                        Text(text = todo.title)
+                        TodoItem(todo = todo, onClick = {
+                            viewModel.updateTodos(
+                                todo.copy(done = !todo.done)
+                            )
+                        }, onDelete = {
+                            viewModel.deleteTodos(todo)
+                        })
                     }
                 }
             }
@@ -173,15 +197,23 @@ fun HomeDisplay(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TodoItem(todo: TodoEntities, onClick: () -> Unit, onDelete: () -> Unit) {
+fun LazyItemScope.TodoItem(todo: TodoEntities, onClick: () -> Unit, onDelete: () -> Unit) {
     val color by animateColorAsState(
         targetValue = if (todo.done) Color(0xff24d65f) else Color(0xffff6363),
         animationSpec = tween(500)
     )
 
     Box(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateItemPlacement(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            ),
         contentAlignment = Alignment.BottomEnd
     ) {
         Row(
@@ -199,6 +231,53 @@ fun TodoItem(todo: TodoEntities, onClick: () -> Unit, onDelete: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(25.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .padding(4.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row {
+                        AnimatedVisibility(
+                            visible = todo.done,
+                            enter = scaleIn() + fadeIn(),
+                            exit = scaleOut() + fadeOut()
+                        ) {
+                            Icon(Icons.Default.Check, contentDescription = null, tint = color)
+                        }
+                    }
+                    Row {
+                        AnimatedVisibility(
+                            visible = !todo.done,
+                            enter = scaleIn() + fadeIn(),
+                            exit = scaleOut() + fadeOut()
+                        ) {
+                            Icon(Icons.Default.Close, contentDescription = null, tint = color)
+                        }
+                    }
+
+                }
+
+                Column {
+                    Text(
+                        text = todo.title,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                    Text(
+                        text = todo.subTitle,
+                        fontSize = 12.sp,
+                        color = Color(0xffebebeb)
+                    )
+                }
+            }
+            Box(
                 modifier = Modifier
                     .size(25.dp)
                     .clip(CircleShape)
@@ -206,43 +285,25 @@ fun TodoItem(todo: TodoEntities, onClick: () -> Unit, onDelete: () -> Unit) {
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Row {
-                    AnimatedVisibility(
-                        visible = todo.done,
-                        enter = scaleIn() + fadeIn(),
-                        exit = scaleOut() + fadeOut()
-                    ) {
-                        Icon(Icons.Default.Check, contentDescription = null, tint = color)
-                    }
-                }
-                Row {
-                    AnimatedVisibility(
-                        visible = !todo.done,
-                        enter = scaleIn() + fadeIn(),
-                        exit = scaleOut() + fadeOut()
-                    ) {
-                        Icon(Icons.Default.Close, contentDescription = null, tint = color)
-                    }
-                }
-
-            }
-
-            Column {
-                Text(
-                    text = todo.title,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = Color.White
-                )
-             Text(text = todo.subTitle,
-                 fontSize = 12.sp,
-                 color = MaterialTheme.colorScheme.primary //==============================================================
-                )
+                Icon(
+                    Icons.Default.Delete,
+                    tint = Color.White,
+                    contentDescription = null,
+                    modifier = Modifier.clickable {
+                        onDelete()
+                    })
             }
 
         }
-        
-        Box(modifier = Modifier.size(25.dp))
+
+        Text(
+            text = todo.addDate,
+            modifier = Modifier.padding(4.dp),
+            Color(0xffebebebeb),
+            fontSize = 10.sp
+        )
+
+
     }
 
 }
