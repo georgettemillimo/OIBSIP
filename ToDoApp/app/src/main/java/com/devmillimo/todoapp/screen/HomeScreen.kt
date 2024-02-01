@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.devmillimo.todoapp.displays
+package com.devmillimo.todoapp.screen
 
 
 import androidx.compose.animation.*
@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
-import androidx.compose.material3.DividerDefaults.color
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier

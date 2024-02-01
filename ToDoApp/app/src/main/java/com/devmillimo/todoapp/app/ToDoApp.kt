@@ -6,7 +6,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.devmillimo.todoapp.displays.*
+import com.devmillimo.todoapp.screen.*
 import com.devmillimo.todoapp.ui.theme.ToDoAppTheme
 
 

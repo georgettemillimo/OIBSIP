@@ -1,4 +1,4 @@
-package com.devmillimo.todoapp.displays
+package com.devmillimo.todoapp.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

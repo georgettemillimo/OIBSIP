@@ -24,3 +24,5 @@ data class TodoEntities(
 )
 
 val TodoEntities.addDate: String get() = SimpleDateFormat("yyyy/mm/dd hh:mm").format(Date(added))
+
+
