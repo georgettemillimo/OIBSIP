@@ -128,30 +128,7 @@ class MainActivity : ComponentActivity() {
                     val (input, setInput) = remember {
                         mutableStateOf<String?>(null)
                     }
-                    //==============================MODE ICONS ON TOP CENTER========================
-                    Box(modifier = Modifier.fillMaxSize().padding(top = 8.dp),
-                        contentAlignment = Alignment.TopCenter
-                    ){
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier
-                                .clip(
-                                    RoundedCornerShape(8.dp)
-                                )
-                                .background(MaterialTheme.colors.primary)
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                        ) {
-                            Icon(modifier = Modifier.size(20.dp),
-                                painter = painterResource(id = R.drawable.icon_nightmode), contentDescription = null,
-                                tint = Color.Black
-                            )
 
-                            Icon(modifier = Modifier.size(20.dp),
-                                painter = painterResource(id = R.drawable.icon_darkmode), contentDescription = null,
-                                tint = Color.Black
-                            )
-                        }
-                    }
                     //==============================MODE ICONS ON TOP CENTER========================
 
                    Box(modifier = Modifier
@@ -267,6 +244,8 @@ fun CalcButton( button: CalculatorButton, onClick:() -> Unit){
         .clickable {
             onClick()
         },
+
+
         contentAlignment = Alignment.Center
     ){
         val contentColor =

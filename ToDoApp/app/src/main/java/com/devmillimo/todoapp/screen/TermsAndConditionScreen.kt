@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devmillimo.todoapp.R
-import com.devmillimo.todoapp.components.CommonText
+import com.devmillimo.todoapp.components.CommonTextsFiles
 import com.devmillimo.todoapp.components.HeadingText
 
 
@@ -29,7 +29,7 @@ fun TernmsAndConditionDisplay() {
         .fillMaxSize()
         .padding(8.dp)) {
         HeadingText(value = stringResource(id = R.string.terms_condition_header))
-        CommonText(value = stringResource(id = R.string.terms_condition))
+        CommonTextsFiles(value = stringResource(id = R.string.terms_condition))
     }
 
    /* SystemBackButtonHandler {

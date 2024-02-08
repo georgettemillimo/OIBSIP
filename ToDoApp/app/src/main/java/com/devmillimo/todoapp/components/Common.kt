@@ -10,13 +10,10 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
@@ -35,12 +32,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.transition.Visibility
 import com.devmillimo.todoapp.R
 import com.devmillimo.todoapp.ui.theme.*
 
 @Composable
-fun CommonText(value: String){
+fun CommonTextsFiles(value: String){
     Text(
         text = value,
         modifier = Modifier
@@ -86,14 +82,13 @@ fun TextFieldComponents(labelvalue: String, painterResource: Painter) {
 
     OutlinedTextField(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(Shapes.small),
+            .fillMaxWidth(),
         label = { Text(text = labelvalue) },
         value = textValue,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Primary,
-            focusedLabelColor = Primary,
-            cursorColor = Primary,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            cursorColor = MaterialTheme.colorScheme.primary,
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         singleLine = true,
@@ -123,14 +118,14 @@ fun PasswordFieldComponent(labelvalue: String, painterResource: Painter) {
 
     OutlinedTextField(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(Shapes.small),
+            .fillMaxWidth(),
+            //clip(Shapes.small),
         label = { Text(text = labelvalue) },
         value = password,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Primary,
-            focusedLabelColor = Primary,
-            cursorColor = Primary,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            cursorColor = MaterialTheme.colorScheme.primary,
         ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
         singleLine = true,
@@ -206,12 +201,12 @@ fun ClickableTextComponent(value: String, onTextSelected: (String)-> Unit){
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
-        withStyle(style = SpanStyle(color = Primary)){
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary,)){
             pushStringAnnotation(tag = privacyPolicyText, annotation = privacyPolicyText)
             append(privacyPolicyText)
         }
         append(andText)
-        withStyle(style = SpanStyle(color = Primary)){
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary,)){
             pushStringAnnotation(tag = termsConditions, annotation = termsConditions)
             append(termsConditions)
         }
@@ -242,7 +237,7 @@ fun ButtonComponent(value: String){
             .fillMaxWidth()
             .heightIn(48.dp)
             .background(
-                brush = Brush.horizontalGradient(listOf(Secondary, Primary)),
+               color = MaterialTheme.colorScheme.inverseOnSurface,
                 shape = RoundedCornerShape(50.dp)
             ),
 
@@ -265,16 +260,16 @@ fun DividerTextComponent(){
         Divider(modifier = Modifier
             .fillMaxWidth()
             .weight(1f),
-        color = GrayColor,
+        color = Color.Gray,
         thickness = 1.dp,)
 
         Text(
             modifier = Modifier.padding(8.dp),
-            text = stringResource(id = R.string.or), fontSize = 16.sp, color = TextColor)
+            text = stringResource(id = R.string.or), fontSize = 16.sp, color = Color.Black)
         Divider(modifier = Modifier
             .fillMaxWidth()
             .weight(1f),
-            color = GrayColor,
+            color = Color.Gray,
             thickness = 1.dp)
     }
 }

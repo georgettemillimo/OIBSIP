@@ -24,7 +24,7 @@ fun LoginDisplay(){
             .padding(28.dp)
     ){
        Column {
-           CommonText(value = stringResource(id = R.string.login))
+          CommonTextsFiles(value = stringResource(id = R.string.login))
            HeadingText(value = stringResource(id = R.string.welcome))
 
            Spacer(modifier = Modifier.height(30.dp))

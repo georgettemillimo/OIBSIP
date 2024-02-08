@@ -24,7 +24,7 @@ fun RegisterDisplay(){
         .padding(28.dp),) {
 
         Column(modifier = Modifier.fillMaxSize()) {
-            CommonText(value = stringResource(R.string.hello))
+            CommonTextsFiles(value = stringResource(R.string.hello))
             HeadingText(value = stringResource(id = R.string.register))
 
             Spacer(modifier = Modifier.height(30.dp))

@@ -39,7 +39,7 @@ fun Mainscreen(stopwatchService: StopwatchService) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.surface)
+                .background(Color.LightGray)
             .padding(30.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
